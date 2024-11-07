@@ -5,74 +5,61 @@ public class BioskopWithScanner28 {
         Scanner sc = new Scanner(System.in);
         int baris, kolom;
         String nama, next;
-        int menu;
 
         String[][] penonton = new String[4][2];
+        boolean running = true;
 
-        while (true) {
-            System.out.println("--- Menu ---");
+        while (running) {
+            System.out.println("\n=== Menu ===");
             System.out.println("1. Input data penonton");
             System.out.println("2. Tampilkan daftar penonton");
             System.out.println("3. Exit");
-            System.out.print("Pilih menu: ");
-            menu = sc.nextInt();
-            sc.nextLine();
+            System.out.print("Pilih opsi: ");
+            int menu = sc.nextInt();
+            sc.nextLine(); // Clear the buffer
 
             switch (menu) {
-            case 1:
-                while (true) {
+                case 1:
                     System.out.print("Masukkan nama: ");
                     nama = sc.nextLine();
+                    System.out.print("Masukkan baris: ");
+                    baris = sc.nextInt();
+                    System.out.print("Masukkan kolom: ");
+                    kolom = sc.nextInt();
+                    sc.nextLine(); // Clear the buffer
 
-                    while (true) {
-                        System.out.print("Masukkan baris (1-4): ");
-                        baris = sc.nextInt();
-                        System.out.print("Masukkan kolom (1-2): ");
-                        kolom = sc.nextInt();
-                        sc.nextLine();
-                   
-                        if (baris < 1 || baris > 4 || kolom < 1 || kolom > 2) {
-                            System.out.println("Nomor baris/kolom tidak tersedia. Silakan coba lagi.");
-                        } else if (penonton[baris - 1][kolom - 1] != null) {
-                            System.out.println("Kursi sudah terisi oleh " + penonton[baris - 1][kolom - 1] + ". Silakan pilih kursi lain.");
-                        } else {
-                            break; 
+                    if (baris >= 1 && baris <= 4 && kolom >= 1 && kolom <= 2) {
+                        penonton[baris - 1][kolom - 1] = nama;
+                        System.out.println("Data penonton berhasil dimasukkan!");
+                    } else {
+                        System.out.println("Baris atau kolom tidak valid. Harap masukkan angka yang sesuai.");
+                    }
+                    break;
+
+                case 2:
+                    System.out.println("\n=== Daftar Penonton ===");
+                    for (int i = 0; i < penonton.length; i++) {
+                        for (int j = 0; j < penonton[i].length; j++) {
+                            String viewer = penonton[i][j];
+                            if (viewer != null) {
+                                System.out.println("Baris " + (i + 1) + " Kolom " + (j + 1) + ": " + viewer);
+                            } else {
+                                System.out.println("Baris " + (i + 1) + " Kolom " + (j + 1) + ": [Kosong]");
+                            }
                         }
                     }
+                    break;
 
-                    penonton[baris - 1][kolom - 1] = nama;
-                    System.out.print("Input penonton lainnya? (y/n): ");
-                    next = sc.nextLine();
-                    if (next.equalsIgnoreCase("n")) {
-                        break;
-                    }
-                }
-                break;
+                case 3:
+                    running = false;
+                    System.out.println("Keluar dari program...");
+                    break;
 
-            case 2:
-                System.out.println("\n--- Daftar Penonton ---");
-                for (int i = 0; i < penonton.length; i++) {
-                    for (int j = 0; j < penonton[i].length; j++) {
-                        if (penonton[i][j] == null) {
-                            System.out.print("***\t");  
-                        } else {
-                            System.out.print(penonton[i][j] + "\t");  
-                        }
-                    }
-                    System.out.println();
-                }
-                break;
-
-            case 3:
-                System.out.println("Terima kasih telah menggunakan program ini");
-                sc.close();
-                return;
-
-            default:
-                System.out.println("Pilihan tidak valid. Silakan coba lagi");
-                break;
-            } 
-
+                default:
+                    System.out.println("Opsi tidak valid. Silakan pilih 1, 2, atau 3.");
+            }
         }
+
+        sc.close();
     }
 }
